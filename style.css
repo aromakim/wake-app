@@ -1,0 +1,1111 @@
+/* ===== 기본 레이아웃 ===== */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(
+    circle at top,
+    #e0ecff 0,
+    #f5f7fb 45%,
+    #eef2ff 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.app-shell {
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.phone-frame {
+  width: 420px; /* 💥 네가 원하는 실제 시각적 크기 */
+  max-width: 480px; /* 크기가 줄어드는 문제 방지 */
+
+  aspect-ratio: 9 / 19.5; /* 갤럭시 비율 */
+  height: auto;
+
+  background: #f8fafc;
+  border-radius: 36px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+/* ===== 상단 헤더 ===== */
+.app-header {
+  padding: 16px 18px 10px;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+}
+
+.app-header__title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.app-header__subtitle {
+  font-size: 13px;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+/* ===== 메인 영역 ===== */
+.app-main {
+  flex: 1;
+  overflow: hidden; /* 내부 스크롤 제거 */
+  padding: 0; /* padding 제거 → 화면 통일 */
+  position: relative;
+}
+
+/* ===== 화면 공통 ===== */
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto; /* 각 화면이 자체 스크롤 */
+  padding: 14px; /* 기존 app-main padding 이동 */
+  box-sizing: border-box;
+  display: none;
+}
+
+.screen--active {
+  display: block;
+}
+
+/* ===== 카드 박스 ===== */
+
+/* 인증용 카드 */
+.page-box--init {
+  position: relative;
+}
+
+.page-box {
+  background: white;
+  padding: 20px 18px 24px;
+  border-radius: 22px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(148, 163, 184, 0.12);
+}
+
+.page-box--home {
+  height: auto;
+  min-height: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ===== 로고 영역 ===== */
+.logo-wrapper {
+  width: 140px;
+  height: 140px;
+  background: #f4f6fa;
+  border-radius: 32px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px auto 18px auto;
+}
+
+.logo-icon {
+  width: 96px;
+  height: 96px;
+}
+
+/* ===== 홈 텍스트 ===== */
+.home-title {
+  margin: 4px 0 6px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.home-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* ===== 공통 제목 ===== */
+h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* ===== 버튼 ===== */
+.btn {
+  width: 100%;
+  padding: 13px 12px;
+  border-radius: 999px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.1s ease;
+}
+
+.btn-large {
+  padding: 15px 12px;
+  font-size: 17px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  box-shadow: 0 10px 18px rgba(37, 99, 235, 0.35);
+}
+
+.btn-secondary {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.btn-outline {
+  background: white;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.btn-small {
+  font-size: 13px;
+  padding: 9px 10px;
+  margin-top: 8px;
+}
+
+.btn-modal {
+  margin-top: 14px;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: none;
+}
+
+/* 텍스트 링크 */
+.text-link {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 아이콘 버튼 */
+.icon-btn {
+  border: none;
+  background: #e2e8f0;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+/* 페이지 헤더 */
+.page-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* 필드 라벨 */
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  margin-top: 10px;
+}
+
+/* 인풋, 셀렉트, 텍스트 영역 */
+input,
+select,
+textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 11px;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid #cbd5f5;
+  box-sizing: border-box;
+  background: #f8fafc;
+  transition: box-shadow 0.1s ease, border-color 0.1s ease, background 0.1s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px #2563eb33, 0 0 0 4px #bfdbfe80;
+  background: white;
+}
+
+textarea {
+  resize: none;
+}
+
+/* 부가 텍스트 */
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.info-text {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* 토글 행 */
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* 스위치 */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #e5e7eb;
+  transition: 0.2s;
+  border-radius: 999px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+  background-color: #2563eb;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+/* QR 박스 */
+.qr-box {
+  margin: 18px auto 10px;
+  width: 210px;
+  height: 210px;
+  border-radius: 24px;
+  background: repeating-linear-gradient(
+    45deg,
+    #e5e7eb,
+    #e5e7eb 10px,
+    #f9fafb 10px,
+    #f9fafb 20px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-inner {
+  width: 160px;
+  height: 160px;
+  border-radius: 18px;
+  border: 4px solid #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 1px;
+}
+
+/* 카메라 박스 */
+.camera-box {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 4 / 3;
+  border-radius: 22px;
+  border: 3px solid #111827;
+  margin: 18px auto;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.camera-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 헬퍼 카드 */
+.helper-card {
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  padding: 12px 12px 10px;
+  margin-bottom: 12px;
+  background: #f9fafb;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+}
+
+.helper-card--disabled {
+  opacity: 0.6;
+}
+
+.helper-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.helper-station {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+
+.helper-meta {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.helper-card__body {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.helper-rating {
+  font-weight: 600;
+}
+
+.helper-note {
+  margin-top: 2px;
+}
+
+/* 뱃지 */
+.badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge--female {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge--male {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge--all {
+  background: #ecfeff;
+  color: #0369a1;
+}
+
+/* 헬퍼 진행중 */
+.active-summary {
+  margin-bottom: 14px;
+}
+
+.active-station {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.active-meta {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.progress-wrap {
+  margin-top: 8px;
+}
+
+.progress-label {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 10px;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  transition: width 0.25s ease-out;
+}
+
+.active-tip {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* 작은 우하단 시연 버튼 */
+.fab-debug {
+  position: absolute;
+  bottom: 82px; /* 안드로이드 네비 위 */
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: #0f172a;
+  color: #e5e7eb;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+/* 애니메이션 */
+.screen--fade {
+  animation: fadeSlideUp 0.28s ease-out;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 하단 안드로이드 네비게이션 */
+.android-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 46px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  position: relative;
+}
+
+/* 뒤로가기 (삼각형 느낌) */
+.nav-back::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  border-style: solid;
+  border-width: 5px 7px 5px 0;
+  border-color: transparent #4b5563 transparent transparent;
+}
+
+/* 홈 버튼 (원형) */
+.nav-home {
+  border: 2px solid #4b5563;
+}
+
+/* 최근 앱 (네모) */
+.nav-recent::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  border: 2px solid #4b5563;
+}
+
+/* 토스트 */
+.toast {
+  position: absolute;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%) translateY(40px);
+  min-width: 220px;
+  max-width: 280px;
+  padding: 10px 14px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  border-radius: 999px;
+  font-size: 13px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 20;
+}
+
+.toast--show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 모달 */
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.modal-overlay--show {
+  display: flex;
+}
+
+.modal-card {
+  width: 80%;
+  max-width: 280px;
+  background: white;
+  border-radius: 18px;
+  padding: 18px 16px 16px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.35);
+  text-align: center;
+}
+
+.modal-message {
+  font-size: 14px;
+  color: #111827;
+  line-height: 1.5;
+}
+
+/* 스크롤바 최소화 */
+.app-main::-webkit-scrollbar {
+  width: 4px;
+}
+.app-main::-webkit-scrollbar-thumb {
+  background: #cbd5f5;
+  border-radius: 999px;
+}
+
+/* ===========================
+   우측 상단 My Page 버튼
+   =========================== */
+
+.mypage-btn {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.mypage-btn:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.mypage-btn:active {
+  transform: scale(0.96);
+}
+
+/* =========================
+   마이페이지 / 상점 스타일
+   ========================= */
+
+.mypage-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 프로필 */
+.mypage-profile {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 18px;
+  background: #f1f5f9;
+}
+
+.mypage-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.mypage-profile-text {
+  flex: 1;
+}
+
+.mypage-name {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.mypage-id {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.mypage-stats {
+  font-size: 12px;
+  color: #475569;
+  margin-top: 4px;
+}
+
+/* 공통 카드 */
+.mypage-card {
+  padding: 12px 12px 14px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.mypage-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.mypage-point-label {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.mypage-point-value {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 2px 0 8px;
+  color: #1d4ed8;
+}
+
+.mypage-point-actions {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.mypage-small {
+  font-size: 12px;
+  color: #4b5563;
+  margin: 2px 0;
+}
+
+/* 후기 리스트 */
+.mypage-review-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mypage-review-list li {
+  font-size: 12px;
+  color: #4b5563;
+  padding: 4px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.mypage-review-list li:last-child {
+  border-bottom: none;
+}
+
+/* 상점 화면 */
+.shop-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shop-summary {
+  padding: 10px 12px 12px;
+  border-radius: 16px;
+  background: #eef2ff;
+}
+
+.shop-point-label {
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.shop-point-value {
+  margin-top: 4px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+/* 상품 그리드 */
+.shop-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.shop-item {
+  border-radius: 14px;
+  padding: 8px 8px 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 90px;
+}
+
+.shop-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.shop-item-point {
+  font-size: 12px;
+  color: #1d4ed8;
+  margin-bottom: 4px;
+}
+
+.shop-item-desc {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.shop-item button {
+  width: 100%;
+  font-size: 12px;
+  padding: 6px 8px;
+}
+
+.shop-note {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 4px 0 0;
+}
+
+/* 상점 상품 카드 높이 고정 + 버튼 하단 정렬 */
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 160px; /* ← 카드 전체 동일 높이로 맞추기 */
+}
+
+.shop-item-name {
+  min-height: 32px; /* 이름 영역 높이 어느정도 확보 */
+}
+
+.shop-item-desc {
+  min-height: 28px; /* 설명 영역 최소 확보 */
+}
+
+.shop-item button {
+  margin-top: auto; /* 버튼을 항상 하단으로 밀기 */
+}
+
+/* ===========================
+   인증 페이지 (initPage)
+   =========================== */
+
+#initPage {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.init-header {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 10px;
+  color: #1e293b;
+}
+
+.camera-box {
+  width: 100%;
+  height: 330px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+#cameraStream {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scan-text {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  color: #475569;
+}
+
+/* 우측 하단 플로팅 버튼 느낌 */
+.scan-fab {
+  position: absolute;
+  right: 26px;
+  bottom: 26px; /* 안드로이드 네비 위 정도 */
+  padding: 11px 22px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 10px 18px rgba(37, 99, 235, 0.35);
+  cursor: pointer;
+}
+
+.scan-btn {
+  margin-top: auto;
+  align-self: flex-end;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 18px;
+  border: none;
+  color: white;
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: 0.15s;
+}
+
+.scan-btn:active {
+  transform: scale(0.95);
+}
+
+/* 스캔 중 애니메이션 */
+.scan-loading {
+  position: relative;
+}
+
+.scan-loading::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 3px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* ===== 공통 screen ===== */
+.screen {
+  display: none;
+}
+.screen--active {
+  display: block;
+}
+
+/* ===== 인증 카드 ===== */
+.page-box--init {
+  position: relative; /* FAB를 카드 안 우측 하단에 붙이기 위해 필요 */
+  padding-bottom: 80px;
+}
+
+/* 카메라 영역 */
+.camera-box {
+  margin-top: 24px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 4px solid #111827;
+}
+
+#cameraStream {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 안내 텍스트 */
+.scan-text {
+  margin-top: 24px;
+  font-size: 16px;
+  color: #374151;
+}
+
+/* ===== 우측 하단 화살표 FAB ===== */
+/*.scan-fab {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  width: 76px;
+  height: 40px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 16px;
+}
+*/
+.scan-fab {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 스캔 중일 때 살짝 투명하게 / 비활성 느낌 */
+.scan-fab.is-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* 화살표 아이콘 */
+.scan-fab__icon {
+  transform: translateX(1px);
+}
+
+/* ==========================
+   Custom Modal Style
+========================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: white;
+  padding: 24px;
+  width: 80%;
+  max-width: 330px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  animation: modalFade 0.2s ease-out;
+}
+
+.modal-message {
+  font-size: 16px;
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+.modal-close-btn {
+  background: #8a4b30;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+@keyframes modalFade {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

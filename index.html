@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>깨워주세요</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ==========================
+     내부 모달 (Custom Modal)
+========================== -->
+    <div id="appModal" class="modal-overlay">
+      <div class="modal-box">
+        <div class="modal-message" id="modalMessage">
+          <!-- JS로 메시지 들어감 -->
+        </div>
+        <button id="modalCloseBtn" class="modal-close-btn">확인</button>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <div class="phone-frame">
+        <header class="app-header">
+          <div class="app-header__title">깨워주세요</div>
+          <div class="app-header__subtitle">졸아도 괜찮은 하차 알림 서비스</div>
+          <button
+            class="mypage-btn"
+            onclick="goToMyPage()"
+            style="display: none"
+          >
+            My Page
+          </button>
+        </header>
+
+        <main class="app-main">
+          <section id="initScreen" class="screen screen--active">
+            <div class="page-box page-box--init">
+              <div class="init-header">신분증 인증</div>
+
+              <div class="camera-box">
+                <video id="cameraStream" autoplay playsinline></video>
+              </div>
+
+              <div class="scan-text">신분증을 화면 중앙에 맞춰주세요</div>
+
+              <!-- ✅ 우측 하단 화살표 FAB 버튼 -->
+              <button
+                class="scan-fab"
+                id="scanBtn"
+                aria-label="신분증 스캔 진행"
+              >
+                <span class="scan-fab__icon">➤</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- 🏠 홈 화면 -->
+          <section id="homeScreen" class="screen screen--fade">
+            <div class="page-box page-box--home">
+              <div class="logo-wrapper">
+                <img
+                  src="sleeping-square-svgrepo-com.svg"
+                  alt="잠자는 아이콘"
+                  class="logo-icon"
+                />
+              </div>
+              <h1 class="home-title">하차 걱정 없는 출퇴근</h1>
+              <p class="home-subtitle">
+                같은 칸에 타고 있는 사람과<br />
+                앱 알림을 함께 사용하는 안전한 하차 도우미
+              </p>
+
+              <button class="btn btn-primary btn-large" onclick="goToRequest()">
+                하차 요청하기
+              </button>
+
+              <button
+                class="btn btn-outline"
+                onclick="showScreen('helperListScreen')"
+              >
+                도와주기 (Helper 모드)
+              </button>
+
+              <button
+                class="btn btn-secondary"
+                onclick="showScreen('alarmSettingsScreen')"
+              >
+                하차 알림 설정
+              </button>
+
+              <button class="text-link" onclick="openAbout()">
+                서비스 소개 보기
+              </button>
+            </div>
+          </section>
+
+          <!-- ⏰ 하차 알림 설정 화면 -->
+          <section id="alarmSettingsScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="showScreen('homeScreen')">
+                  ←
+                </button>
+                <h2>하차 알림 설정</h2>
+              </div>
+
+              <p class="subtitle">
+                알림 방식을 미리 설정해두면<br />
+                다른 앱을 사용 중일 때도 안전하게 하차 알림을 받을 수 있습니다.
+              </p>
+
+              <div class="toggle-row">
+                <span>진동 알림</span>
+                <label class="switch">
+                  <input id="vibrateToggle" type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <span>소리 알림</span>
+                <label class="switch">
+                  <input id="soundToggle" type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <span>강한 알림 모드 (연속 진동 · 팝업)</span>
+                <label class="switch">
+                  <input id="strongToggle" type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <button class="btn btn-primary" onclick="saveAlarmSettings()">
+                설정 저장
+              </button>
+
+              <button class="btn btn-outline" onclick="testAlarmPreview()">
+                알림 미리보기
+              </button>
+            </div>
+          </section>
+
+          <!-- 🙋 하차 요청 화면 -->
+          <section id="requestScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="showScreen('homeScreen')">
+                  ←
+                </button>
+                <h2>하차 요청하기</h2>
+              </div>
+
+              <label class="field-label">하차역</label>
+              <input
+                type="text"
+                id="stationInput"
+                placeholder="예: 강남역, 홍대입구역"
+              />
+
+              <p class="info-text">
+                하차 알림(소리/진동)은<br />
+                [하차 알림 설정]에서 미리 조정할 수 있습니다.
+              </p>
+
+              <button
+                class="btn btn-outline"
+                onclick="showScreen('filterScreen')"
+              >
+                필터 설정 (성별 · 별점 · 거리 · 칸)
+              </button>
+
+              <button class="btn btn-primary" onclick="sendRequest()">
+                이 설정으로 도움 요청 보내기
+              </button>
+            </div>
+          </section>
+
+          <!-- 🎛 필터 설정 화면 -->
+          <section id="filterScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="showScreen('requestScreen')">
+                  ←
+                </button>
+                <h2>필터 설정</h2>
+              </div>
+
+              <label class="field-label">성별</label>
+              <select id="genderFilter">
+                <option value="all">모두</option>
+                <option value="male">남성만</option>
+                <option value="female">여성만</option>
+              </select>
+
+              <label class="field-label">최소 별점</label>
+              <input
+                type="number"
+                id="ratingFilter"
+                min="0"
+                max="5"
+                step="0.5"
+                value="0"
+              />
+
+              <label class="field-label">거리 (m)</label>
+              <select id="distanceFilter">
+                <option value="10">10m</option>
+                <option value="20">20m</option>
+                <option value="30">30m</option>
+                <option value="40">40m</option>
+                <option value="50">50m</option>
+              </select>
+
+              <label class="field-label">탑승 위치</label>
+              <select id="locationFilter">
+                <option value="same-car">같은 칸</option>
+                <option value="same-train">같은 열차</option>
+                <option value="all">전체 열차</option>
+              </select>
+
+              <button class="btn btn-primary" onclick="applyFilter()">
+                필터 적용하기
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="showScreen('requestScreen')"
+              >
+                취소하고 돌아가기
+              </button>
+            </div>
+          </section>
+
+          <!-- 🚨 요청자: 대기 + QR 제시 화면 -->
+          <section id="qrShowScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="showScreen('homeScreen')">
+                  ←
+                </button>
+                <h2>도움 요청 완료</h2>
+              </div>
+
+              <p class="subtitle">
+                근처에 조건에 맞는 헬퍼가 있다면<br />
+                연결 알림이 도착합니다.<br /><br />
+                실제 하차역에 도착했을 때,<br />
+                깨워준 분에게 아래 QR을 보여주세요.
+              </p>
+
+              <div class="qr-box">
+                <div class="qr-inner">QR</div>
+              </div>
+
+              <button
+                class="btn btn-secondary"
+                onclick="showScreen('idScreen')"
+              >
+                QR이 인식 안 되나요? ID로 포인트 지급
+              </button>
+              <!-- 요청자용 QR 스캔 완료 시뮬레이션 버튼 -->
+              <button
+                class="fab-debug"
+                onclick="simulateRequesterScan()"
+                aria-label="QR 스캔 완료"
+              >
+                ▷
+              </button>
+            </div>
+          </section>
+
+          <!-- 🧾 ID 입력 화면 (요청자 → 헬퍼에게 포인트) -->
+          <section id="idScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="showScreen('qrShowScreen')">
+                  ←
+                </button>
+                <h2>ID로 포인트 지급</h2>
+              </div>
+
+              <p class="subtitle">
+                QR이 제대로 인식되지 않을 경우,<br />
+                도와준 분의 ID를 입력해 포인트를 지급할 수 있습니다.
+              </p>
+
+              <input
+                type="text"
+                id="idInput"
+                placeholder="상대 ID를 입력하세요"
+              />
+
+              <button class="btn btn-primary" onclick="givePointsByID()">
+                포인트 지급
+              </button>
+            </div>
+          </section>
+
+          <!-- 🔵 헬퍼: 요청 목록 화면 -->
+          <section id="helperListScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="showScreen('homeScreen')">
+                  ←
+                </button>
+                <h2>도와주기 (Helper 모드)</h2>
+              </div>
+
+              <p class="subtitle">
+                근처에서 하차 도움을 요청한 승객 목록입니다.<br />
+                하나의 요청은 한 명의 헬퍼만 선착순으로 수락할 수 있습니다.
+              </p>
+
+              <div id="helperRequests">
+                <div class="helper-card" data-id="req1">
+                  <div class="helper-card__header">
+                    <div>
+                      <div class="helper-station">강남역 하차</div>
+                      <div class="helper-meta">2정거장 남음 · 약 30m 거리</div>
+                    </div>
+                    <div class="badge badge--female">여성</div>
+                  </div>
+                  <div class="helper-card__body">
+                    <div class="helper-rating">요청자 평점 ★4.8</div>
+                    <div class="helper-note">같은 칸 · 최소 별점 4.0 이상</div>
+                  </div>
+                  <button
+                    class="btn btn-primary btn-small"
+                    onclick="acceptRequest('req1')"
+                  >
+                    수락하기
+                  </button>
+                </div>
+
+                <div class="helper-card" data-id="req2">
+                  <div class="helper-card__header">
+                    <div>
+                      <div class="helper-station">잠실역 하차</div>
+                      <div class="helper-meta">3정거장 남음 · 약 60m 거리</div>
+                    </div>
+                    <div class="badge badge--all">성별 제한 없음</div>
+                  </div>
+                  <div class="helper-card__body">
+                    <div class="helper-rating">요청자 평점 ★4.2</div>
+                    <div class="helper-note">
+                      같은 열차 · 최소 별점 3.5 이상
+                    </div>
+                  </div>
+                  <button
+                    class="btn btn-primary btn-small"
+                    onclick="acceptRequest('req2')"
+                  >
+                    수락하기
+                  </button>
+                </div>
+
+                <div class="helper-card" data-id="req3">
+                  <div class="helper-card__header">
+                    <div>
+                      <div class="helper-station">서울역 하차</div>
+                      <div class="helper-meta">1정거장 남음 · 약 20m 거리</div>
+                    </div>
+                    <div class="badge badge--male">남성</div>
+                  </div>
+                  <div class="helper-card__body">
+                    <div class="helper-rating">요청자 평점 ★4.9</div>
+                    <div class="helper-note">같은 칸 · 최소 별점 4.5 이상</div>
+                  </div>
+                  <button
+                    class="btn btn-primary btn-small"
+                    onclick="acceptRequest('req3')"
+                  >
+                    수락하기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 🔵 헬퍼: 진행 중 화면 -->
+          <section id="helperActiveScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="cancelActiveHelp()">←</button>
+                <h2>도움 주는 중</h2>
+              </div>
+
+              <div class="active-summary">
+                <div class="active-station" id="activeStation">강남역 하차</div>
+                <div class="active-meta" id="activeMeta">
+                  2정거장 남음 · 약 30m 거리
+                </div>
+              </div>
+
+              <div class="progress-wrap">
+                <div class="progress-label">
+                  남은 정거장: <span id="activeRemain">2</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-bar" id="activeProgress"></div>
+                </div>
+              </div>
+
+              <div class="active-tip">
+                실제 서비스에서는 열차 위치와 역 정보를 기반으로<br />
+                남은 정거장이 자동으로 업데이트됩니다.
+              </div>
+
+              <p class="info-text">
+                하차역에 도착하면 승객을 깨워준 뒤<br />
+                아래 버튼을 눌러 포인트를 받으세요.
+              </p>
+
+              <button class="btn btn-primary" onclick="goToQRFromHelper()">
+                깨워주고 포인트 받기
+              </button>
+
+              <!-- 정거장 이동 시뮬레이션용: 우하단 작은 버튼 -->
+              <button
+                class="fab-debug"
+                onclick="decreaseRemain()"
+                aria-label="정거장 1개 지남"
+              >
+                ▷
+              </button>
+            </div>
+          </section>
+
+          <!-- 🔵 헬퍼: QR 스캔 화면 -->
+          <section id="qrScanScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <button
+                  class="icon-btn"
+                  onclick="showScreen('helperActiveScreen')"
+                >
+                  ←
+                </button>
+                <h2>QR 스캔</h2>
+              </div>
+
+              <p class="subtitle">
+                요청자가 보여주는 QR을 이 안에 맞춰주세요.<br />
+                인식되면 포인트가 자동으로 적립됩니다.
+              </p>
+
+              <div id="cameraBox" class="camera-box">카메라 준비 중</div>
+
+              <!-- 스캔 시뮬레이션용: 우하단 작은 버튼 -->
+              <button
+                class="fab-debug"
+                onclick="simulateScan()"
+                aria-label="QR 스캔"
+              >
+                ▷
+              </button>
+            </div>
+          </section>
+
+          <!-- 🎉 포인트 지급 완료 화면 (공통) -->
+          <section id="doneScreen" class="screen">
+            <div class="page-box">
+              <div class="page-header">
+                <h2>포인트 지급 완료</h2>
+              </div>
+
+              <p class="subtitle">
+                도와주신 덕분에 안전하게 하차할 수 있었습니다.<br />
+                포인트가 적립되었습니다.
+              </p>
+
+              <button
+                class="btn btn-primary"
+                onclick="showScreen('homeScreen')"
+              >
+                홈으로 돌아가기
+              </button>
+            </div>
+          </section>
+          <!-- ✅ 새로 정리한: 마이페이지 (내 정보 화면) -->
+          <section id="myPageScreen" class="screen">
+            <div class="page-box mypage-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="showScreen('homeScreen')">
+                  ←
+                </button>
+                <h2>내 정보</h2>
+              </div>
+
+              <!-- 프로필 영역 -->
+              <div class="mypage-profile">
+                <div class="mypage-avatar">🙂</div>
+                <div class="mypage-profile-text">
+                  <div class="mypage-name" id="mypageName">홍길동</div>
+                  <div class="mypage-id" id="mypageId">@user123</div>
+                  <div class="mypage-stats" id="mypageStats">
+                    도움 받은 0회 · 도와준 0회
+                  </div>
+                </div>
+              </div>
+
+              <!-- 포인트 요약 카드 -->
+              <div class="mypage-card">
+                <div class="mypage-card-header">
+                  <span>나의 포인트</span>
+                  <span class="mypage-point-label">보유 포인트</span>
+                </div>
+                <div class="mypage-point-value" id="mypagePointValue">0 P</div>
+                <div class="mypage-point-actions">
+                  <button
+                    class="btn btn-outline btn-small"
+                    onclick="showToast('포인트 적립 내역은 아직 데모 상태입니다.')"
+                  >
+                    적립 내역
+                  </button>
+                  <button
+                    class="btn btn-outline btn-small"
+                    onclick="showToast('포인트 사용 내역은 아직 데모 상태입니다.')"
+                  >
+                    사용 내역
+                  </button>
+                </div>
+                <button class="btn btn-secondary" onclick="openCashoutModal()">
+                  포인트 현금화 하기
+                </button>
+              </div>
+
+              <!-- 활동 / 별점 카드 -->
+              <div class="mypage-card">
+                <div class="mypage-card-header">
+                  <span>나의 활동</span>
+                </div>
+                <p class="mypage-small" id="mypageActivity">
+                  도움 받은 3회 · 도와준 12회
+                </p>
+                <p class="mypage-small">
+                  나의 별점 <span id="mypageRating">★ 4.8</span>
+                </p>
+              </div>
+
+              <!-- 최근 후기 카드 -->
+              <div class="mypage-card">
+                <div class="mypage-card-header">
+                  <span>최근 후기</span>
+                </div>
+                <ul class="mypage-review-list" id="mypageReviewList">
+                  <!-- JS로 채워짐 -->
+                </ul>
+              </div>
+
+              <!-- 상점으로 이동 버튼 -->
+              <button class="btn btn-primary" onclick="goToShop()">
+                상점으로 이동
+              </button>
+            </div>
+          </section>
+
+          <!-- ✅ 새로 추가: 상점 화면 -->
+          <section id="shopScreen" class="screen">
+            <div class="page-box shop-box">
+              <div class="page-header">
+                <button class="icon-btn" onclick="showScreen('myPageScreen')">
+                  ←
+                </button>
+                <h2>상점</h2>
+              </div>
+
+              <!-- 포인트 요약 -->
+              <div class="shop-summary">
+                <div class="shop-point-label">보유 포인트</div>
+                <div class="shop-point-value" id="shopPointValue">0 P</div>
+              </div>
+
+              <!-- 상품 그리드 -->
+              <div class="shop-grid" id="shopGrid">
+                <!-- JS에서 상품 카드 채움 -->
+              </div>
+
+              <p class="shop-note">
+                일부 상품은 기프티콘 또는 쿠폰 형태로 제공됩니다.<br />
+                실제 서비스에서는 교환 후 쿠폰함에서 확인할 수 있어요.
+              </p>
+            </div>
+          </section>
+        </main>
+
+        <!-- 📱 하단 네비게이션 (삼성 느낌) -->
+        <div class="android-nav">
+          <div class="nav-btn nav-back"></div>
+          <div class="nav-btn nav-home"></div>
+          <div class="nav-btn nav-recent"></div>
+        </div>
+
+        <!-- 🔔 인앱 토스트 -->
+        <div id="toast" class="toast"></div>
+
+        <!-- 🧊 인앱 모달 -->
+        <div id="modalOverlay" class="modal-overlay">
+          <div class="modal-card">
+            <div id="modalMessage" class="modal-message"></div>
+            <button class="btn btn-primary btn-modal" onclick="closeModal()">
+              확인
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
