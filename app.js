@@ -136,21 +136,14 @@ function applyFilter() {
     male: "남성만",
     female: "여성만",
   };
-  const locationMap = {
-    "same-car": "같은 칸",
-    "same-train": "같은 열차",
-    all: "전체 열차",
-  };
 
   const gender = document.getElementById("genderFilter").value;
   const rating = document.getElementById("ratingFilter").value;
   const distance = document.getElementById("distanceFilter").value;
-  const location = document.getElementById("locationFilter").value;
 
   filterSummary.gender = genderMap[gender];
   filterSummary.rating = rating;
   filterSummary.distance = distance;
-  filterSummary.location = locationMap[location];
 
   showToast("필터가 적용되었습니다.");
   showScreen("requestScreen");
