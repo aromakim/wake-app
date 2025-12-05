@@ -13,9 +13,24 @@ let acceptedRequestId = null;
 
 // 헬퍼 요청 더미 데이터
 const helperRequestData = {
-  req1: { station: "강남역", remain: 2, distance: "30m" },
-  req2: { station: "잠실역", remain: 3, distance: "60m" },
-  req3: { station: "서울역", remain: 1, distance: "20m" },
+  req1: {
+    station: "강남역",
+    remain: 2,
+    distance: "30m",
+    appearance: "빨간 패딩, 흰 마스크 착용",
+  },
+  req2: {
+    station: "잠실역",
+    remain: 3,
+    distance: "60m",
+    appearance: "회색 후드티, 검은 백팩",
+  },
+  req3: {
+    station: "서울역",
+    remain: 1,
+    distance: "20m",
+    appearance: "남색 코트, 파란 보조가방",
+  },
 };
 
 // 알람 설정 상태
